@@ -1,0 +1,181 @@
+/**
+ * Sean O'Brien
+ * C++ Class Creation Practice, public and private
+ * passing by variable and passing by reference
+ * Sunday, Nov 17 2019
+ */
+
+#include <iostream>
+using namespace std;
+
+/****************************************************/
+// Circle Class
+class Circle {
+private:
+    /********************/
+    // private members
+    const double PI = 3.147;
+    double radius{};
+
+    /********************/
+    // private calculation functions
+    double calcArea(double radius) {
+        double rc = PI * radius * radius;
+        return rc;
+    }
+
+    double calcCircum(double radius) {
+        double rc = 2.0 * PI * radius;
+        return rc;
+    }
+
+public:
+    /********************/
+    //public members
+
+    /********************/
+    // constructor (args)
+    explicit Circle(double radius) {
+        radius = 0.0;
+    }
+
+    /********************/
+    // constructor (no-args)
+    ~Circle() {
+        radius = 0.0;
+    }
+
+    /********************/
+    // call private calcCircum function, return
+    double circumference(double radius) {
+        double rc = calcCircum(radius);
+        return rc;
+    }
+
+    /********************/
+    // call private circleArea function, return
+    double circleArea(double radius) {
+        double rc = calcArea(radius);
+        return rc;
+    }
+
+    /********************/
+    // print circle class items
+    void printCirc(double radius) {
+        cout << "The area of your circle is " << circleArea(radius) << endl;
+        cout << "The circumference of your circle is " << circumference(radius) << endl;
+    }
+};
+
+/****************************************************/
+// Rectangle Class
+class Rectangle {
+
+private:
+    /********************/
+    // private members
+    double length;
+    double width;
+
+    /********************/
+    // private calculation functions
+    double calcArea(double length, double width) {
+        double rc = length * width;
+        return rc;
+    }
+
+    double calcPeri(double length, double width) {
+        double rc;
+        rc = (length + width) * 2;
+        return rc;
+    }
+
+public:
+    /********************/
+    //public members
+
+    /********************/
+    // constructor (args)
+    explicit Rectangle(double length, double width) {
+    }
+
+    /********************/
+    // constructor (no-arg)
+    Rectangle() {
+        length = 0.0;
+        width = 0.0;
+    }
+
+    /********************/
+    // destructor
+    ~Rectangle() {
+        length = 0.0;
+        width = 0.0;
+    }
+
+    /********************/
+    // call private calcArea function, return
+    double rectArea(double length, double width) {
+        double rc;
+        rc = calcArea(length, width);
+        return rc;
+    }
+
+    /********************/
+    // call private calcPeri function, return
+    double perimeter(double length, double width) {
+        double rc;
+        rc = calcPeri(length, width);
+        return rc;
+    }
+
+    /********************/
+    // print Rectangle class items
+    void printRect(double length, double width) {
+        cout << "The length is " << length << " and the width is " << width << endl;
+        cout << "The area of the rectangle is " << calcArea(length, width) << endl;
+        cout << "The perimeter of the rectangle is " << perimeter(length, width) << endl;
+    }
+
+    /********************/
+    // non-library swap function
+    void swap(double *&length, double *&width) {
+        double *temp = length;
+        length = width;
+        width = temp;
+    }
+};
+
+/****************************************************/
+// Main method
+
+int main() {
+    // instantiate objects of classes Rectangle and Circle
+    Rectangle myRect(0.0, 0.0);
+    Circle myCircle(0.0);
+
+    // define variables
+    double length, width, radius;
+    double *pLength = &length;
+    double *pWidth = &width;
+
+    // user i/o
+    cout << "Enter rectangle length: ";
+    cin >> length;
+    cout << "Enter rectangle width: ";
+    cin >> width;
+    cout << "Enter circle radius: ";
+    cin >> radius;
+    cout << endl;
+    cout << "Swap demo length -> width\n";
+
+    // non-library swap call
+    myRect.swap(reinterpret_cast<double *&>(length), reinterpret_cast<double *&>(width));
+
+    myRect.printRect(length, width);
+    cout << endl;
+    myCircle.printCirc(radius);
+    myRect.rectArea(length, width);
+
+    return 0;
+}
